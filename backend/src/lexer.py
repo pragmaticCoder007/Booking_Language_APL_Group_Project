@@ -1,34 +1,24 @@
 from ply import lex
 
 reserved_words = {
-#---------Event Listing---------#
     'What': 'WHAT',
-    'events': 'EVENTS',
-    'available': 'AVAILABLE',
-    'schedule': 'SCHEDULE',
-
-#---------Booking---------# 
+    'List': 'LIST',
     'Book': 'BOOK',
-    'ticket': 'TICKET',
-    'tickets': 'TICKETS',
-    'list': 'LIST',
-    'my': 'MY',
-    'bookings': 'BOOKINGS',
 
-#---------Confirm---------#
     'Confirm': 'CONFIRM',
-
-#---------Cancel---------#
     'Cancel': 'CANCEL',
-
-#---------Payment---------#
     'Pay': 'PAY',
 
+    'available': 'AVAILABLE',
+    'schedule': 'SCHEDULE',
+    'bookings': 'BOOKINGS',
+    
     'reservation': 'RESERVATION',
     'bookingID': 'BOOKING_ID',
 
     'for': 'FOR',
     'is': 'IS',
+    'at' : 'AT',
     'are': 'ARE',
     'in': 'IN',
     'from': 'FROM',
@@ -41,7 +31,6 @@ tokens = [
     'NAME',
     'RESOURCE',
     'LOCATION',
-    'CATEGORY',
 
     'DATE',
     'INTEGER',
@@ -80,19 +69,14 @@ def t_RESOURCE(t):
     r'[$][A-Za-z]+(?:\s[A-Za-z]+)*'
     if t.value in reserved_words:
         t.type = reserved_words[t.value]
+    t.value = t.value[1:]
     return t
 
 def t_LOCATION(t):
     r'[@][A-Za-z]+(?:\s[A-Za-z]+)*'
     if t.value in reserved_words:
         t.type = reserved_words[t.value]
-    return t
-
-
-def t_CATEGORY(t):
-    r'[+][A-Za-z]+(?:\s[A-Za-z]+)*'
-    if t.value in reserved_words:
-        t.type = reserved_words[t.value]
+    t.value = t.value[1:]
     return t
 
 def t_NAME(t):
@@ -100,12 +84,6 @@ def t_NAME(t):
     if t.value in reserved_words:
         t.type = reserved_words[t.value]
     return t
-
-""" def t_LAST_NAME(t):
-    r'[A-Za-z]+'
-    if t.value in reserved_words:
-        t.type = reserved_words[t.value]
-    return t """
 
 def t_DATE(t):
     r'\d{4}-\d{2}-\d{2}'
@@ -120,6 +98,7 @@ def t_ID_STRING(t):
     r'[#][A-Za-z0-9]+'
     if t.value in reserved_words:
         t.type = reserved_words[t.value]
+    t.value = t.value[1:]
     return t
 
 # Ignore spaces and tabs
